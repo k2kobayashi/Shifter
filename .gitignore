@@ -1,0 +1,8 @@
+.DS_Store
+*.swp
+*.swo
+*.pyc
+*.egg-info/
+dist/
+
+shifter/data
