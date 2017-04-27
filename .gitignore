@@ -4,5 +4,3 @@
 *.pyc
 *.egg-info/
 dist/
-
-shifter/data
