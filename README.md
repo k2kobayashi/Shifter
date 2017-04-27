@@ -35,14 +35,6 @@ INSTALLATION
 Grab a copy of Shifter:
 
     git clone git://github.com/k2kobayashi/shifter.git
-
-<!--
-Run the installation script.
-
-    cd shifter
-    python setup.py
---!>
-
 KNOWN ISSUES
 ------------
 
@@ -60,7 +52,7 @@ For any questions or issues please visit:
 AUTHORS
 -------
 
-Shifter was originally written by Kazuhiro Kobayashi.
+Shifter was originally written by Kazuhiro KOBAYASHI.
 
 COPYRIGHT
 ---------
