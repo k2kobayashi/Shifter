@@ -19,7 +19,7 @@ foreach f0rate ($f0rates)
     python ./$pydir/main.py \
         -nmsg \
         -f0rate $f0rate \
-        $pydir/data/A01.wav \
+        $pydir/data/in.wav \
         $pydir/data/out_$f0rate.wav
     echo $pydir/data/out_$f0rate.wav
 end
