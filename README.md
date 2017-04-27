@@ -17,7 +17,8 @@ USAGE
 
 When the F0 transformation rate set to 2.0, please run following command
 
-    shifter -f0rate 2.0 in.wav out.wav
+    python shifter/main.py -f0rate 2.0 in.wav out.wav
+
 INSTALLATION
 ------------
 
@@ -35,10 +36,12 @@ Grab a copy of Shifter:
 
     git clone git://github.com/k2kobayashi/shifter.git
 
+<!--
 Run the installation script.
 
     cd shifter
     python setup.py
+--!>
 
 KNOWN ISSUES
 ------------
@@ -63,5 +66,7 @@ COPYRIGHT
 ---------
 
 Copyright © 2017 Kazuhiro KOBAYASHI
+
 Released under the MIT license
+
 https://opensource.org/licenses/mit-license.php
