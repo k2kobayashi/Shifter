@@ -36,12 +36,15 @@ Grab a copy of Shifter:
 
     git clone git://github.com/k2kobayashi/shifter.git
 
+Install as a command line tool
+
+    python setup.py install
+
 KNOWN ISSUES
 ------------
 
-- Implement setup script
-- Describe descriptions in each class and function
 - Reduce computational cost
+- Describe descriptions in each class and function
 
 
 REPORTING BUGS
