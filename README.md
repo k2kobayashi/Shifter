@@ -39,7 +39,8 @@ KNOWN ISSUES
 ------------
 
 - Implement setup script
-- This tool takes a long time to complete
+- Describe descriptions in each class and function
+- Reduce computational cost
 
 
 REPORTING BUGS
