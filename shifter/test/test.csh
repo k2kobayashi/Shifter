@@ -9,14 +9,15 @@
 #   Distributed under terms of the MIT license.
 #
 
-set pydir = ../
+set pydir = ..
 
 rm $pydir/*.pyc
 
 set f0rates = (0.5 0.75 1.0 1.5 2.0)
 
 foreach f0rate ($f0rates)
-    python ./$pydir/main.py \
+    # python ./$pydir/main.py \
+    shifter \
         -nmsg \
         -f0rate $f0rate \
         $pydir/data/in.wav \
