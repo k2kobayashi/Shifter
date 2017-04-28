@@ -15,9 +15,9 @@ The F0 transformation is implemented with WSOLA (Waveform Similarity-based Over-
 USAGE
 -----
 
-When the F0 transformation rate set to 2.0, please run following command
+When the F0 transformation rate set to 2.0, please run a following command
 
-    python shifter/main.py -f0rate 2.0 in.wav out.wav
+    shifter -f0rate 2.0 in.wav out.wav
 
 INSTALLATION
 ------------
@@ -35,12 +35,16 @@ INSTALLATION
 Grab a copy of Shifter:
 
     git clone git://github.com/k2kobayashi/shifter.git
+
+Install as a command line tool
+
+    python setup.py install
+
 KNOWN ISSUES
 ------------
 
-- Implement setup script
-- Describe descriptions in each class and function
 - Reduce computational cost
+- Describe descriptions in each class and function
 
 
 REPORTING BUGS
