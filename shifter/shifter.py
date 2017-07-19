@@ -10,8 +10,12 @@
 #   Distributed under terms of the MIT license.
 #
 
+import skimage
 import numpy as np
+import scipy.signal
 from scipy.interpolate import interp1d
+
+import time
 
 
 class Shifter:
@@ -30,7 +34,7 @@ class Shifter:
 
     """
 
-    def __init__(self, fs, f0rate, frame_ms=20, shift_ms=10,):
+    def __init__(self, fs, f0rate, frame_ms=20, shift_ms=10):
         self.fs = fs
         self.f0rate = f0rate
 
@@ -57,8 +61,17 @@ class Shifter:
 
         """
 
+        self.xlen = len(data)
+
+        st = time.time()
         wsolaed = self.duration_modification(data)
+        et = time.time() - st
+
+        st2 = time.time()
         transformed = self.resampling(wsolaed)
+        et2 = time.time() - st2
+
+        # print et, et2
 
         return transformed
 
@@ -93,8 +106,8 @@ class Shifter:
                 ep += self.epstep
                 continue
 
-            # cspy wavform
-            ref = data[rp - self.sl:rp + self.sl] * self.win
+            # copy wavform
+            ref = data[rp - self.sl:rp + self.sl]
             buff = data[ep - self.fl:ep + self.fl]
 
             # search minimum distance bepween ref and buff
@@ -124,6 +137,34 @@ class Shifter:
 
         Returns
         ---------
+        resampled : array, shape (`len(data)`)
+            Array of resampled (F0 transformed) waveform sequence
+
+        """
+
+        return scipy.signal.resample(data, self.xlen)
+
+    def _search_minimum_distance(self, ref, buff):
+        # slicing and windowing one sample by one
+        buffmat = skimage.util.view_as_windows(buff, self.fl) * self.win
+        refwin = np.array(ref * self.win).reshape(1, self.fl)
+        corr = scipy.signal.correlate2d(buffmat, refwin, mode='valid')
+
+        return np.argmax(corr) - self.sl
+
+    def _cross_correration(self, org, tar):
+        return np.correlate(org, tar)
+
+    def resampling_by_interpolate(self, data):
+        """Resampling
+
+        Parameters
+        ---------
+        data : array, shape ('int(len(data) * f0rate)')
+            array of wsolaed waveform
+
+        Returns
+        ---------
         wsolaed: array, shape (`len(data)`)
             Array of resampled (F0 transformed) waveform sequence
 
@@ -131,21 +172,18 @@ class Shifter:
 
         # interpolate
         wedlen = len(data)
-        intpfunc = interp1d([i for i in range(wedlen)], data, kind=1)
+        intpfunc = interp1d(np.arange(wedlen), data, kind=1)
         x_new = np.arange(0.0, wedlen - 1, self.f0rate)
         resampled = intpfunc(x_new)
 
         return resampled
 
-    def _search_minimum_distance(self, ref, buff):
+    def _search_minimum_distance_back(self, ref, buff):
         cc, maxcc = -1, -1
         for t in range(self.fl):
-            tar = buff[t:t + self.fl] * self.win
-            cc = self._cross_correration(ref, tar)
+            tar = buff[t:t + self.fl]
+            cc = self._cross_correration(ref * self.win, tar * self.win)
             if cc > maxcc:
                 maxcc = cc
                 delta = t
         return delta - self.sl
-
-    def _cross_correration(self, org, tar):
-        return np.correlate(org, tar)
