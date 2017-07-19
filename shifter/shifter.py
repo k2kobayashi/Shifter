@@ -145,6 +145,9 @@ class Shifter:
         return scipy.signal.resample(data, self.xlen)
 
     def _search_minimum_distance(self, ref, buff):
+        if len(ref) < self.fl:
+            ref = np.r_[ref, np.zeros(self.fl - len(ref))]
+
         # slicing and windowing one sample by one
         buffmat = skimage.util.view_as_windows(buff, self.fl) * self.win
         refwin = np.array(ref * self.win).reshape(1, self.fl)
