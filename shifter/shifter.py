@@ -1,7 +1,7 @@
 #! /usr/local/bin/python
 # -*- coding: utf-8 -*-
 #
-# wsola.py
+# shifter.py
 #   First edition: 2017-04-26
 #
 #   Copyright 2017
