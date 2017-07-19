@@ -10,16 +10,11 @@
 #   Distributed under terms of the MIT license.
 #
 
-"""
-
-
-"""
-
-
 import argparse
+import numpy as np
+from scipy.io import wavfile
 
-import wavio
-import wsola
+from shifter import Shifter
 
 def main():
     # Options for python
@@ -42,23 +37,14 @@ def main():
         print "Output .wav file : ", args.owavf
 
     # read input .wav file
-    wav = wavio.WavClass(args.iwavf)
-    if args.nmsg:
-        wav.print_wav_info()
+    fs, x = wavfile.read(args.iwavf)
 
-    # duration modification with WSOLA
-    f0trans = wsola.WSOLAClass(wav.fs)
-    f0trans.set_f0rate(args.f0rate)
-    f0trans.set_data(wav.d)
-    f0trans.duration_modification()
-
-    # wav.d = f0trans.wsolaed
-
-    # F0 transfomation using re-sampling
-    wav.d = f0trans.resampling()
+    # F0 transoformation based on WSOLA and resampling
+    f0trans = Shifter(fs, args.f0rate, frame_ms=20, shift_ms=10)
+    transformed = f0trans.transform(x)
 
     # write output .wav file
-    wav.write_wave_data(args.owavf)
+    wavfile.write(args.owavf, fs, np.array(transformed, dtype=np.int16))
 
 if __name__ == '__main__':
     main()
